@@ -19,6 +19,7 @@ import { FieldConfiguration, TypeConfiguration } from '@wundergraph/protobuf';
 import { LocalCache, LocalCacheBucket } from '../localcache';
 import { Logger } from '../logger';
 import { onParentProcessExit } from '../utils/process';
+import { stringifyJson } from '../utils/stringify'
 
 /**
  * Introspection cache
@@ -116,7 +117,7 @@ const updateIntrospectionCache = async <TApi extends ApiType>(
 	cacheKey: string
 ): Promise<boolean> => {
 	const cached = await bucket.get(cacheKey);
-	const data = JSON.stringify(toCacheEntry(api));
+    const data = await stringifyJson({body: toCacheEntry(api)});
 	if (cached !== data) {
 		return bucket.set(cacheKey, data);
 	}

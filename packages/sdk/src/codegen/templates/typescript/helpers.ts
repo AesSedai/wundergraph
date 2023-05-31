@@ -21,7 +21,7 @@ const filteredOperations = (application: ResolvedApplication, includeInternal: b
 	includeInternal ? application.Operations : application.Operations.filter((op) => !op.Internal);
 
 export const filterNodeJSOperations = (application: ResolvedApplication): ResolvedApplication => {
-	const copy = JSON.parse(JSON.stringify(application)) as ResolvedApplication;
+    const copy = structuredClone(application);
 	copy.Operations = copy.Operations.filter((op) => op.ExecutionEngine !== OperationExecutionEngine.ENGINE_NODEJS);
 	return copy;
 };
